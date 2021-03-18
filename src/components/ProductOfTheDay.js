@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
-// import productOfTheDayImg from '../productOfTheDay.g'
 
 
 class ProductOfTheDay extends Component{
-    state = {product: {}}
+    state = {product: {}, showProductDetail: false}
 
     componentDidMount(){
         fetch('http://localhost:8080/product/200')
         .then(response => response.json()
         .then(json => this.setState({ product: json })));
+    }
+
+    toggleDisplayMoreInfo = () => {
+        this.setState({ showProductDetail: !this.state.showProductDetail })
     }
 
     render(){
@@ -18,6 +21,22 @@ class ProductOfTheDay extends Component{
                 <h2>Product Of The Day</h2>
                 <img src={this.state.product.imageUrl} alt='product of the day' className="productOfTheDay"></img>
                 <p>{this.state.product.shortDescription}</p>
+                <h3>Product Details</h3>
+                {
+                    this.state.showProductDetail ? (
+                        <div>
+                            <p>{this.state.product.editorDescription}</p>
+                            <p>{this.state.product.brand}</p>
+                            <p>{this.state.product.variant.gender}</p>
+                            <p>{this.state.product.unitPrice} - {this.state.product.priceCurrency} </p>
+                            <button onClick={this.toggleDisplayMoreInfo}>Show Less</button>
+                        </div>
+                    ) : (
+                        <div>
+                            <button onClick={this.toggleDisplayMoreInfo}>Read More</button>
+                        </div>
+                    )
+                }
             </div>
         )
     }
