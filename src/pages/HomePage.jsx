@@ -20,7 +20,7 @@ export default function HomePage() {
       <h2>Product Of The Day</h2>
       <img
         src={productOfTheDay.imageUrl}
-        alt="Product of the day"
+        alt={`Product of the day id ${productOfTheDay.id}`}
         className="productOfTheDay"
       ></img>
     </div>

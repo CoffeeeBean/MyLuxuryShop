@@ -13,9 +13,9 @@ test("home page with title and product of the day", async () => {
 
   //load product image and attributes from api
   const productOfTheDayImage = await screen.findByRole("img", {
-    name: "Product of the day",
+    name: "Product of the day id 200",
   });
   expect(productOfTheDayImage).toBeInTheDocument();
   const altTextForProductOfTheDayImage = productOfTheDayImage.alt;
-  expect(altTextForProductOfTheDayImage).toEqual("Product of the day");
+  expect(altTextForProductOfTheDayImage).toEqual("Product of the day id 200");
 });
