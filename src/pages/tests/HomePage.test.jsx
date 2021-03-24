@@ -18,4 +18,8 @@ test("home page with title and product of the day", async () => {
   expect(productOfTheDayImage).toBeInTheDocument();
   const altTextForProductOfTheDayImage = productOfTheDayImage.alt;
   expect(altTextForProductOfTheDayImage).toEqual("Product of the day id 200");
+
+  //check product attribute from api
+  await screen.findByText("Oversized double-breasted grain de poudre blazer");
+  await screen.findByText("Bottega Veneta");
 });

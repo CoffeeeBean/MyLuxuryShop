@@ -23,6 +23,8 @@ export default function HomePage() {
         alt={`Product of the day id ${productOfTheDay.id}`}
         className="productOfTheDay"
       ></img>
+      <p>{productOfTheDay.shortDescription}</p>
+      <p>{productOfTheDay.brand}</p>
     </div>
   );
 }
