@@ -8,7 +8,7 @@ import "@testing-library/jest-dom/extend-expect";
 
 import App from "../App";
 
-test.skip("full app rendering/navigating", async () => {
+test("full app rendering/navigating", async () => {
   const history = createMemoryHistory();
   render(
     <Router history={history}>
@@ -20,9 +20,10 @@ test.skip("full app rendering/navigating", async () => {
 
   const leftClick = { button: 0 };
   userEvent.click(screen.getByText(/search products/i), leftClick);
-
-  // verify to be in SearchProducts
   expect(screen.getByText(/search page/i)).toBeInTheDocument();
+
+  userEvent.click(screen.getByText(/create new product/i), leftClick);
+  expect(screen.getByText(/create product/i)).toBeInTheDocument();
 });
 
 test("landing on a bad page", () => {

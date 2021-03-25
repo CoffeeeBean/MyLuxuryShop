@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link, Route, Switch } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import SearchProducts from "../pages/SearchProducts";
+import CreateProduct from "../pages/CreateProduct";
 
 const NoMatch = () => <div>No match</div>;
 
@@ -16,10 +17,13 @@ class App extends Component {
     return (
       <div>
         <h3 style={style}>
-          <Link to="/">Home </Link>
+          <Link to="/">Home</Link>
         </h3>
         <h3 style={style}>
-          <Link to="/search">Search Products </Link>
+          <Link to="/search">Search Products</Link>
+        </h3>
+        <h3 style={style}>
+          <Link to="/create">Create New Product</Link>
         </h3>
 
         <Switch>
@@ -29,6 +33,10 @@ class App extends Component {
 
           <Route path="/search">
             <SearchProducts />
+          </Route>
+
+          <Route path="/create">
+            <CreateProduct />
           </Route>
 
           <Route>
