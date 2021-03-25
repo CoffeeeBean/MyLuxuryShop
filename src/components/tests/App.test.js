@@ -8,7 +8,7 @@ import "@testing-library/jest-dom/extend-expect";
 
 import App from "../App";
 
-test("full app rendering/navigating", () => {
+test.skip("full app rendering/navigating", async () => {
   const history = createMemoryHistory();
   render(
     <Router history={history}>
