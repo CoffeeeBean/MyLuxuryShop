@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Container } from "react-bootstrap";
 import Row from "react-bootstrap/Row";
 import Product from "./Product";
 
@@ -25,17 +26,19 @@ export default function SearchProducts() {
   ));
 
   return (
-    <div>
-      <h2>search page</h2>
-      <input
-        type="text"
-        id="filter"
-        placeholder="insert json filter"
-        style={{ width: 500 }}
-      ></input>
-      <button>Search</button>
-      <hr />
-      <Row>{retrivedProducts}</Row>
-    </div>
+    <Container>
+      <>
+        <h2>search page</h2>
+        <input
+          type="text"
+          id="filter"
+          placeholder="insert json filter"
+          style={{ width: 500 }}
+        ></input>
+        <button>Search</button>
+        <hr />
+        <Row>{retrivedProducts}</Row>
+      </>
+    </Container>
   );
 }

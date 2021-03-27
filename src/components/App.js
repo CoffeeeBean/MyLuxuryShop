@@ -3,6 +3,7 @@ import { Link, Route, Switch } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import SearchProducts from "../pages/SearchProducts";
 import CreateProduct from "../pages/CreateProduct";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const NoMatch = () => <div>No match</div>;
 
@@ -16,33 +17,37 @@ class App extends Component {
   render() {
     return (
       <div>
-        <h3 style={style}>
-          <Link to="/">Home</Link>
-        </h3>
-        <h3 style={style}>
-          <Link to="/search">Search Products</Link>
-        </h3>
-        <h3 style={style}>
-          <Link to="/create">Create New Product</Link>
-        </h3>
+        <h1> My Luxury Shop</h1>
+        <hr />
+        <div>
+          <h3 style={style}>
+            <Link to="/">Home</Link>
+          </h3>
+          <h3 style={style}>
+            <Link to="/search">Search Products</Link>
+          </h3>
+          <h3 style={style}>
+            <Link to="/create">Create New Product</Link>
+          </h3>
 
-        <Switch>
-          <Route exact path="/">
-            <HomePage />
-          </Route>
+          <Switch>
+            <Route exact path="/">
+              <HomePage />
+            </Route>
 
-          <Route path="/search">
-            <SearchProducts />
-          </Route>
+            <Route path="/search">
+              <SearchProducts />
+            </Route>
 
-          <Route path="/create">
-            <CreateProduct />
-          </Route>
+            <Route path="/create">
+              <CreateProduct />
+            </Route>
 
-          <Route>
-            <NoMatch />
-          </Route>
-        </Switch>
+            <Route>
+              <NoMatch />
+            </Route>
+          </Switch>
+        </div>
       </div>
     );
   }

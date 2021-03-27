@@ -4,9 +4,6 @@ import HomePage from "../HomePage";
 test("home page with title and product of the day", async () => {
   render(<HomePage />);
 
-  const title = screen.getByText("My Luxury Shop");
-  expect(title).toBeInTheDocument();
-
   const productOfTheDayTitle = screen.getByText("Product Of The Day");
   expect(productOfTheDayTitle).toBeInTheDocument();
 

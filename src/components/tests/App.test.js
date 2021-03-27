@@ -20,6 +20,8 @@ test("full app rendering/navigating", async () => {
       </Router>
     )
   );
+  const title = screen.getByText("My Luxury Shop");
+  expect(title).toBeInTheDocument();
   //verify to be in HomePage
   expect(screen.getByText("Product Of The Day")).toBeInTheDocument();
 
