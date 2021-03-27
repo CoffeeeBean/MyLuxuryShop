@@ -13,7 +13,6 @@ test("search page with search input textbox and search button - using jest", asy
   expect(
     await screen.findByRole("textbox", { id: "filter" })
   ).toBeInTheDocument();
-  expect(screen.getByRole("button", { name: "Search" })).toBeInTheDocument();
 });
 
 test.skip("search page with search input textbox and search button - using waitFor", async () => {

@@ -1,11 +1,14 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Container } from "react-bootstrap";
 import Row from "react-bootstrap/Row";
 import Product from "./Product";
 
 export default function SearchProducts() {
   const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const inputEL = useRef("");
 
   useEffect(() => {
     axios
@@ -16,7 +19,24 @@ export default function SearchProducts() {
       });
   }, []);
 
-  const retrivedProducts = products.map((product) => (
+  const searchHandler = () => {
+    setSearchTerm(inputEL.current.value);
+    if (searchTerm !== "") {
+      setSearchResults(
+        products.filter((product) => {
+          return Object.values(product)
+            .join(" ")
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase());
+        })
+      );
+    } else {
+      setSearchResults(products);
+    }
+  };
+
+  const productToRender = searchTerm.length < 1 ? products : searchResults;
+  const retrivedProducts = productToRender.map((product) => (
     <Product
       key={product.id}
       id={product.id}
@@ -29,13 +49,18 @@ export default function SearchProducts() {
     <Container>
       <>
         <h2>search page</h2>
-        <input
-          type="text"
-          id="filter"
-          placeholder="insert json filter"
-          style={{ width: 500 }}
-        ></input>
-        <button>Search</button>
+        <div className="form-group has-search">
+          <span className="fa fa-search form-control-feedback"></span>
+          <input
+            ref={inputEL}
+            type="text"
+            id="filter"
+            className="form-control"
+            placeholder="Search"
+            value={searchTerm}
+            onChange={searchHandler}
+          />
+        </div>
         <hr />
         <Row>{retrivedProducts}</Row>
       </>
