@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { Container } from "react-bootstrap";
 import Row from "react-bootstrap/Row";
 import Product from "./Product";
+import SearchForm from "./SearchForm";
 
 export default function SearchProducts() {
   const [products, setProducts] = useState([]);
@@ -12,7 +13,7 @@ export default function SearchProducts() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/product/query`)
+      .post(`http://localhost:8080/product/query`, {})
       .then((response) => setProducts(response.data))
       .catch((error) => {
         //todo handle error
@@ -47,23 +48,27 @@ export default function SearchProducts() {
 
   return (
     <Container>
-      <>
-        <h2>search page</h2>
-        <div className="form-group has-search">
-          <span className="fa fa-search form-control-feedback"></span>
-          <input
-            ref={inputEL}
-            type="text"
-            id="filter"
-            className="form-control"
-            placeholder="Search"
-            value={searchTerm}
-            onChange={searchHandler}
-          />
-        </div>
+      <h2>search page</h2>
+      <div className="form-group has-search">
+        <span className="fa fa-search form-control-feedback"></span>
+        <input
+          ref={inputEL}
+          type="text"
+          id="filter"
+          className="form-control"
+          placeholder="Search"
+          value={searchTerm}
+          onChange={searchHandler}
+        />
+      </div>
+      <div className="columnForFilter">
+        <h4>Categories</h4>
+        <SearchForm />
+      </div>
+      <div>
         <hr />
         <Row>{retrivedProducts}</Row>
-      </>
+      </div>
     </Container>
   );
 }
