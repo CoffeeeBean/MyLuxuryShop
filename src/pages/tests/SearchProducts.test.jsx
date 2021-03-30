@@ -6,7 +6,7 @@ import mockResponse from "./mockApiResponses";
 jest.mock("axios");
 
 test("search page with search input textbox and search button - using jest", async () => {
-  axios.get.mockImplementation(() => Promise.resolve({ data: [] }));
+  axios.post.mockImplementation(() => Promise.resolve({ data: [] }));
 
   render(<SearchProducts />);
 
@@ -16,7 +16,7 @@ test("search page with search input textbox and search button - using jest", asy
 });
 
 test.skip("search page with search input textbox and search button - using waitFor", async () => {
-  axios.get.mockImplementation(() => Promise.resolve({ data: [] }));
+  axios.post.mockImplementation(() => Promise.resolve({ data: [] }));
 
   render(<SearchProducts />);
 
@@ -25,7 +25,7 @@ test.skip("search page with search input textbox and search button - using waitF
 });
 
 test("load products from api when page render", async () => {
-  axios.get.mockImplementation(() =>
+  axios.post.mockImplementation(() =>
     Promise.resolve({ data: mockResponse.mockSearchProducts })
   );
   render(<SearchProducts />);

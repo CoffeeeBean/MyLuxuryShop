@@ -11,6 +11,7 @@ jest.mock("axios");
 
 test("full app rendering/navigating", async () => {
   axios.get.mockImplementation(() => Promise.resolve({ data: [] }));
+  axios.post.mockImplementation(() => Promise.resolve({ data: [] }));
 
   const history = createMemoryHistory();
   await waitFor(() =>
