@@ -1,12 +1,7 @@
 import { ButtonGroup } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
+import CATEGORIES from "../data/categories";
 
-const CATEGORIES = [
-  { id: 0, name: "All" },
-  { id: 1, name: "Bags" },
-  { id: 2, name: "Clothing" },
-  { id: 3, name: "Shoes" },
-];
 export default function SearchForm() {
   return (
     <Form>
