@@ -25,7 +25,7 @@ const emptyNewProduct = {
   },
   unitPrice: 0,
   priceCurrency: "",
-  inStock: false,
+  inStock: true,
   imageUrl: "",
 };
 
@@ -42,6 +42,7 @@ export default function CreateProduct() {
   const [newProductVariant, setNewProductVariant] = useState(
     emptyNewProductVariant
   );
+  const [saveConfirmed, setSaveConfirmed] = useState(false);
 
   const submit = (e) => {
     e.preventDefault();
@@ -51,6 +52,7 @@ export default function CreateProduct() {
       .then((res) => {
         console.log(res);
         console.log(res.data);
+        setSaveConfirmed(true);
       });
   };
 
@@ -61,6 +63,16 @@ export default function CreateProduct() {
     });
     setNewProduct({ ...newProduct, variant: newProductVariant });
   };
+
+  const resetForNewProduct = (e) => {
+    setNewProductVariant(emptyNewProductVariant);
+    setNewProduct(emptyNewProduct);
+    setSaveConfirmed(false);
+  };
+
+  const confirmationMessage = saveConfirmed ? (
+    <p>New Product Created. Id: {newProduct.id}</p>
+  ) : null;
 
   return (
     <div>
@@ -75,6 +87,7 @@ export default function CreateProduct() {
               <Form.Control
                 type="text"
                 id="productId"
+                disabled={saveConfirmed}
                 value={newProduct.id}
                 onChange={(e) =>
                   setNewProduct({ ...newProduct, id: e.target.value })
@@ -90,6 +103,7 @@ export default function CreateProduct() {
               <Form.Control
                 type="text"
                 id="productShortDescription"
+                disabled={saveConfirmed}
                 value={newProduct.shortDescription}
                 onChange={(e) =>
                   setNewProduct({
@@ -108,6 +122,7 @@ export default function CreateProduct() {
               <Form.Control
                 type="text"
                 id="productEditorialDescriprion"
+                disabled={saveConfirmed}
                 value={newProduct.editorDescription}
                 onChange={(e) =>
                   setNewProduct({
@@ -119,12 +134,14 @@ export default function CreateProduct() {
             </Col>
           </Form.Group>
           <Form.Group as={Row}>
-            <Form.Label column sm="2">
+            <Form.Label column sm="2" htmlFor="category">
               Category
             </Form.Label>
             <Col sm="10">
               <Form.Control
                 as="select"
+                id="category"
+                disabled={saveConfirmed}
                 value={newProduct.category}
                 onChange={(e) =>
                   setNewProduct({ ...newProduct, category: e.target.value })
@@ -144,6 +161,7 @@ export default function CreateProduct() {
               <Form.Control
                 type="text"
                 id="productBrand"
+                disabled={saveConfirmed}
                 value={newProduct.brand}
                 onChange={(e) =>
                   setNewProduct({ ...newProduct, brand: e.target.value })
@@ -159,6 +177,7 @@ export default function CreateProduct() {
               <Form.Control
                 type="text"
                 id="productSku"
+                disabled={saveConfirmed}
                 value={newProduct.sku}
                 onChange={(e) =>
                   setNewProduct({ ...newProduct, sku: e.target.value })
@@ -167,26 +186,28 @@ export default function CreateProduct() {
             </Col>
           </Form.Group>
           <Form.Group as={Row}>
-            <Form.Label column sm="2" htmlFor="productModel">
+            <Form.Label column sm="2" htmlFor="model">
               Model
             </Form.Label>
             <Col sm="10">
               <Form.Control
                 type="text"
                 id="model"
+                disabled={saveConfirmed}
                 value={newProductVariant.model}
                 onChange={(e) => handleVariant(e)}
               />
             </Col>
           </Form.Group>
           <Form.Group as={Row}>
-            <Form.Label column sm="2">
+            <Form.Label column sm="2" htmlFor="color">
               Color
             </Form.Label>
             <Col sm="10">
               <Form.Control
                 as="select"
                 id="color"
+                disabled={saveConfirmed}
                 value={newProductVariant.color}
                 onChange={(e) => handleVariant(e)}
               >
@@ -197,39 +218,42 @@ export default function CreateProduct() {
             </Col>
           </Form.Group>
           <Form.Group as={Row}>
-            <Form.Label column sm="2" htmlFor="productMaterial">
+            <Form.Label column sm="2" htmlFor="materials">
               Material
             </Form.Label>
             <Col sm="10">
               <Form.Control
                 type="text"
                 id="materials"
+                disabled={saveConfirmed}
                 value={newProductVariant.materials}
                 onChange={(e) => handleVariant(e)}
               />
             </Col>
           </Form.Group>
           <Form.Group as={Row}>
-            <Form.Label forhtml="productSize" column sm="2">
+            <Form.Label htmlFor="size" column sm="2">
               Size
             </Form.Label>
             <Col sm="10">
               <Form.Control
                 type="text"
                 id="size"
+                disabled={saveConfirmed}
                 value={newProductVariant.size}
                 onChange={(e) => handleVariant(e)}
               />
             </Col>
           </Form.Group>
           <Form.Group as={Row}>
-            <Form.Label column sm="2">
+            <Form.Label column sm="2" htmlFor="gender">
               Gender
             </Form.Label>
             <Col sm="10">
               <Form.Control
                 as="select"
                 id="gender"
+                disabled={saveConfirmed}
                 value={newProductVariant.gender}
                 onChange={(e) => handleVariant(e)}
               >
@@ -247,6 +271,7 @@ export default function CreateProduct() {
               <Form.Control
                 type="text"
                 id="productUnitPrice"
+                disabled={saveConfirmed}
                 value={newProduct.unitPrice}
                 onChange={(e) =>
                   setNewProduct({ ...newProduct, unitPrice: e.target.value })
@@ -255,12 +280,14 @@ export default function CreateProduct() {
             </Col>
           </Form.Group>
           <Form.Group as={Row}>
-            <Form.Label column sm="2">
+            <Form.Label column sm="2" htmlFor="priceCurrency">
               Price Currency
             </Form.Label>
             <Col sm="10">
               <Form.Control
                 as="select"
+                id="priceCurrency"
+                disabled={saveConfirmed}
                 value={newProduct.priceCurrency}
                 onChange={(e) =>
                   setNewProduct({
@@ -279,7 +306,8 @@ export default function CreateProduct() {
             <Form.Check
               type="checkbox"
               label="In Stock"
-              value={newProduct.inStock}
+              disabled={saveConfirmed}
+              checked={newProduct.inStock}
               onChange={(e) =>
                 setNewProduct({ ...newProduct, inStock: e.target.checked })
               }
@@ -293,6 +321,7 @@ export default function CreateProduct() {
               <Form.Control
                 type="text"
                 id="productImageUrl"
+                disabled={saveConfirmed}
                 value={newProduct.imageUrl}
                 onChange={(e) =>
                   setNewProduct({ ...newProduct, imageUrl: e.target.value })
@@ -300,10 +329,26 @@ export default function CreateProduct() {
               />
             </Col>
           </Form.Group>
+          <Form.Group as={Row}>
+            <Button
+              variant="primary"
+              type="submit"
+              onClick={submit}
+              disabled={saveConfirmed}
+            >
+              Save
+            </Button>
+            <Button
+              variant="primary"
+              type="submit"
+              onClick={resetForNewProduct}
+              disabled={!saveConfirmed}
+            >
+              Create New Product
+            </Button>
+          </Form.Group>
         </Form>
-        <Button variant="primary" type="submit" onClick={submit}>
-          Save
-        </Button>
+        <h2>{confirmationMessage}</h2>
       </div>
     </div>
   );
