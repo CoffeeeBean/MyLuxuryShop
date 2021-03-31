@@ -19,11 +19,7 @@ const emptyNewProduct = {
   variant: {
     model: "",
     color: "",
-    materials: [
-      {
-        description: "",
-      },
-    ],
+    materials: "",
     size: "",
     gender: "",
   },
@@ -33,8 +29,19 @@ const emptyNewProduct = {
   imageUrl: "",
 };
 
+const emptyNewProductVariant = {
+  model: "",
+  color: "",
+  materials: "",
+  size: "",
+  gender: "",
+};
+
 export default function CreateProduct() {
   const [newProduct, setNewProduct] = useState(emptyNewProduct);
+  const [newProductVariant, setNewProductVariant] = useState(
+    emptyNewProductVariant
+  );
 
   const submit = (e) => {
     e.preventDefault();
@@ -45,6 +52,14 @@ export default function CreateProduct() {
         console.log(res);
         console.log(res.data);
       });
+  };
+
+  const handleVariant = (e) => {
+    setNewProductVariant({
+      ...newProductVariant,
+      [e.target.id]: e.target.value,
+    });
+    setNewProduct({ ...newProduct, variant: newProductVariant });
   };
 
   return (
@@ -156,7 +171,12 @@ export default function CreateProduct() {
               Model
             </Form.Label>
             <Col sm="10">
-              <Form.Control type="text" id="productModel" />
+              <Form.Control
+                type="text"
+                id="model"
+                value={newProductVariant.model}
+                onChange={(e) => handleVariant(e)}
+              />
             </Col>
           </Form.Group>
           <Form.Group as={Row}>
@@ -164,7 +184,12 @@ export default function CreateProduct() {
               Color
             </Form.Label>
             <Col sm="10">
-              <Form.Control as="select">
+              <Form.Control
+                as="select"
+                id="color"
+                value={newProductVariant.color}
+                onChange={(e) => handleVariant(e)}
+              >
                 {COLORS.map((color) => (
                   <option key={color.id}>{color.name}</option>
                 ))}
@@ -176,7 +201,12 @@ export default function CreateProduct() {
               Material
             </Form.Label>
             <Col sm="10">
-              <Form.Control type="text" id="productMaterial" />
+              <Form.Control
+                type="text"
+                id="materials"
+                value={newProductVariant.materials}
+                onChange={(e) => handleVariant(e)}
+              />
             </Col>
           </Form.Group>
           <Form.Group as={Row}>
@@ -184,7 +214,12 @@ export default function CreateProduct() {
               Size
             </Form.Label>
             <Col sm="10">
-              <Form.Control type="text" id="productSize" />
+              <Form.Control
+                type="text"
+                id="size"
+                value={newProductVariant.size}
+                onChange={(e) => handleVariant(e)}
+              />
             </Col>
           </Form.Group>
           <Form.Group as={Row}>
@@ -192,7 +227,12 @@ export default function CreateProduct() {
               Gender
             </Form.Label>
             <Col sm="10">
-              <Form.Control as="select">
+              <Form.Control
+                as="select"
+                id="gender"
+                value={newProductVariant.gender}
+                onChange={(e) => handleVariant(e)}
+              >
                 {GENDERS.map((gender) => (
                   <option key={gender.id}>{gender.name}</option>
                 ))}
