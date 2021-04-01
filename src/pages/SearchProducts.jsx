@@ -1,24 +1,56 @@
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import { Container } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
+import { ButtonGroup } from "react-bootstrap";
+import Form from "react-bootstrap/Form";
 import Product from "./Product";
-import SearchForm from "./SearchForm";
+//import SearchForm from "./SearchForm";
+import CATEGORIES from "../data/categories";
 
 export default function SearchProducts() {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const inputEL = useRef("");
+
+  const query = `{
+    "query": {
+      "bool" : {
+        "filter": [
+          ${selectedCategory}
+        ]
+      }
+    }
+  }`;
 
   useEffect(() => {
     axios
-      .post(`http://localhost:8080/product/query`, {})
+      .post(`http://localhost:8080/product/query`, query, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then((response) => setProducts(response.data))
       .catch((error) => {
         //todo handle error
       });
-  }, []);
+  }, [query]);
+
+  const handleCategoryFilter = (e) => {
+    const value = e.target.value;
+    if (value !== "All") {
+      setSelectedCategory(`{"match":{"category":"${e.target.value}"}}`);
+    } else {
+      setSelectedCategory("");
+    }
+  };
+
+  const handleQueryUpdate = (query) => {
+    console.log(query);
+  };
 
   const searchHandler = () => {
     setSearchTerm(inputEL.current.value);
@@ -46,6 +78,25 @@ export default function SearchProducts() {
     />
   ));
 
+  const searchForm = (
+    <Form>
+      <ButtonGroup vertical>
+        {CATEGORIES.map((category) => (
+          <div key={category.id} className="mb-3">
+            <Form.Check
+              type="radio"
+              label={category.name}
+              value={category.name}
+              id={`categoryFilter_${category.name}`}
+              name="categoryFilter"
+              onChange={handleCategoryFilter}
+            />
+          </div>
+        ))}
+      </ButtonGroup>
+    </Form>
+  );
+
   return (
     <Container>
       <h2>search page</h2>
@@ -63,7 +114,7 @@ export default function SearchProducts() {
       </div>
       <div className="columnForFilter">
         <h4>Categories</h4>
-        <SearchForm />
+        {searchForm}
       </div>
       <div>
         <hr />
