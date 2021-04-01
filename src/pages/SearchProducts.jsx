@@ -6,21 +6,25 @@ import Row from "react-bootstrap/Row";
 import { ButtonGroup } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Product from "./Product";
-//import SearchForm from "./SearchForm";
 import CATEGORIES from "../data/categories";
+import COLORS from "../data/colors";
 
 export default function SearchProducts() {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
   const inputEL = useRef("");
+  const [filter, setFilter] = useState({
+    category: "",
+    variant_color: "",
+  });
+  const [jsonFilter, setJsonFilter] = useState("");
 
   const query = `{
     "query": {
       "bool" : {
         "filter": [
-          ${selectedCategory}
+          ${jsonFilter}
         ]
       }
     }
@@ -39,17 +43,33 @@ export default function SearchProducts() {
       });
   }, [query]);
 
-  const handleCategoryFilter = (e) => {
+  const handleFilter = (e) => {
     const value = e.target.value;
-    if (value !== "All") {
-      setSelectedCategory(`{"match":{"category":"${e.target.value}"}}`);
-    } else {
-      setSelectedCategory("");
-    }
-  };
+    const name = e.target.name;
 
-  const handleQueryUpdate = (query) => {
-    console.log(query);
+    const newFilter = filter;
+    if (value !== "All") {
+      newFilter[name] = `{"match":{"${name.replace("_", ".")}":"${value}"}}`;
+    } else {
+      newFilter[name] = "";
+    }
+
+    let newJsonFilter = "";
+    for (let key in filter) {
+      if (filter[key] !== "All" && filter[key] !== "") {
+        if (newJsonFilter !== "") {
+          newJsonFilter = newJsonFilter + ",";
+        }
+        newJsonFilter = newJsonFilter + filter[key];
+      }
+      console.log(newJsonFilter);
+    }
+    if (newFilter[name] !== "") {
+      newJsonFilter = newJsonFilter + "," + newFilter[name];
+    }
+
+    setJsonFilter(newJsonFilter);
+    setFilter(newFilter);
   };
 
   const searchHandler = () => {
@@ -80,6 +100,7 @@ export default function SearchProducts() {
 
   const searchForm = (
     <Form>
+      <h4>Category</h4>
       <ButtonGroup vertical>
         {CATEGORIES.map((category) => (
           <div key={category.id} className="mb-3">
@@ -88,8 +109,23 @@ export default function SearchProducts() {
               label={category.name}
               value={category.name}
               id={`categoryFilter_${category.name}`}
-              name="categoryFilter"
-              onChange={handleCategoryFilter}
+              name="category"
+              onChange={handleFilter}
+            />
+          </div>
+        ))}
+      </ButtonGroup>
+      <h4>Color</h4>
+      <ButtonGroup vertical>
+        {COLORS.map((color) => (
+          <div key={color.id} className="mb-3">
+            <Form.Check
+              type="radio"
+              label={color.name}
+              value={color.name}
+              id={`colorFilter_${color.name}`}
+              name="variant_color"
+              onChange={handleFilter}
             />
           </div>
         ))}
@@ -112,10 +148,7 @@ export default function SearchProducts() {
           onChange={searchHandler}
         />
       </div>
-      <div className="columnForFilter">
-        <h4>Categories</h4>
-        {searchForm}
-      </div>
+      <div className="columnForFilter">{searchForm}</div>
       <div>
         <hr />
         <Row>{retrivedProducts}</Row>
