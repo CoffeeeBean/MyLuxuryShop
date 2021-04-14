@@ -6,7 +6,9 @@ export default function HomePage() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/product/200")
+      .get(
+        "http://ec2-54-190-125-149.us-west-2.compute.amazonaws.com:8080/product/200"
+      )
       .then((response) => setProductOfTheDay(response.data))
       .catch((error) => {
         //todo handle error

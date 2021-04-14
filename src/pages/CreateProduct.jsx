@@ -48,7 +48,10 @@ export default function CreateProduct() {
     e.preventDefault();
     console.log({ newProduct });
     axios
-      .post(`http://localhost:8080/product/add`, { ...newProduct })
+      .post(
+        `http://ec2-54-190-125-149.us-west-2.compute.amazonaws.com:8080/product/add`,
+        { ...newProduct }
+      )
       .then((res) => {
         console.log(res);
         console.log(res.data);

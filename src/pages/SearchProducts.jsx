@@ -32,11 +32,15 @@ export default function SearchProducts() {
 
   useEffect(() => {
     axios
-      .post(`http://localhost:8080/product/query`, query, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      .post(
+        `http://ec2-54-190-125-149.us-west-2.compute.amazonaws.com:8080/product/query`,
+        query,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
       .then((response) => setProducts(response.data))
       .catch((error) => {
         //todo handle error
