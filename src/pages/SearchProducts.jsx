@@ -99,6 +99,10 @@ export default function SearchProducts() {
       id={product.id}
       shortDescription={product.shortDescription}
       imageUrl={product.imageUrl}
+      editorialDescription={product.editorDescription}
+      brand={product.brand}
+      unitPrice={product.unitPrice}
+      priceCurrency={product.priceCurrency}
     />
   ));
 
