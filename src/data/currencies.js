@@ -1,4 +1,5 @@
 const CURRENCIES = [
+  { id: 0, name: "" },
   { id: 1, name: "EUR" },
   { id: 2, name: "GBP" },
   { id: 3, name: "USD" },
